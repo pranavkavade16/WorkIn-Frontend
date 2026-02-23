@@ -14,7 +14,7 @@ export function WorkInProvider({ children }) {
     loading: projectLoading,
     error: projectError,
     fetchData: fetchProjects,
-  } = useFetch("http://localhost:5000/project");
+  } = useFetch("https://work-in-backend.vercel.app/project");
 
   useEffect(() => {
     fetchProjects();
@@ -25,7 +25,7 @@ export function WorkInProvider({ children }) {
     loading: teamLoading,
     error: teamError,
     fetchData: fetchTeams,
-  } = useFetch("http://localhost:5000/team");
+  } = useFetch("https://work-in-backend.vercel.app/team");
 
   useEffect(() => {
     fetchTeams();
@@ -36,7 +36,7 @@ export function WorkInProvider({ children }) {
     loading: usersLoading,
     error: usersError,
     fetchData: fetchUsers,
-  } = useFetch("http://localhost:5000/user");
+  } = useFetch("https://work-in-backend.vercel.app/user");
 
   useEffect(() => {
     fetchUsers();
@@ -47,7 +47,7 @@ export function WorkInProvider({ children }) {
     loading: taskLoading,
     error: taskError,
     fetchData: fetchTasks,
-  } = useFetch("http://localhost:5000/task");
+  } = useFetch("https://work-in-backend.vercel.app/task");
 
   useEffect(() => {
     fetchTasks();

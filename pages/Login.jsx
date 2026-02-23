@@ -29,7 +29,7 @@ const Login = () => {
 
       // 🔁 Call your backend login API (replace URL and shape as needed)
       // Using fetch for zero dependencies; you can swap with axios if you prefer.
-      const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch("https://work-in-backend.vercel.app/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

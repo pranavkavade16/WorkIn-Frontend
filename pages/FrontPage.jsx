@@ -37,13 +37,13 @@ const FrontPage = () => {
     loading: filteredProjectLoading,
     updateFilter: updateProjectFilter,
     filter,
-  } = useFilter("http://localhost:5000/project");
+  } = useFilter("https://work-in-backend.vercel.app/project");
 
   //   const {
   //     data: filteredTaskData,
   //     updateFilter: updateTaskFilter,
   //     clearFilters: clearTaskFilters,
-  //   } = useFilter("http://localhost:5000/task", { paramPrefix: "t" });
+  //   } = useFilter("https://work-in-backend.vercel.app/task", { paramPrefix: "t" });
 
   console.log("tasks", taskData);
   console.log("users", usersData);
@@ -63,13 +63,13 @@ const FrontPage = () => {
 
   const userList = Array.isArray(usersData.users) ? usersData.users : [];
 
-  const taskList = Array.isArray(filteredTaskData.task)
-    ? filteredTaskData.task
-    : [];
+  //   const taskList = Array.isArray(filteredTaskData.task)
+  //     ? filteredTaskData.task
+  //     : [];
 
   const { setSearch, searchedProjects, searchedTasks } = useSearch(
     projectList,
-    taskList,
+    // taskList,
   );
   console.log("front page searchedProjects", searchedProjects);
 
@@ -196,7 +196,9 @@ const FrontPage = () => {
                     id="project-status-filter"
                     className="form-select form-select-sm"
                     value={filter.status || ""}
-                    onChange={(e) => updateFilter({ status: e.target.value })}
+                    onChange={(e) =>
+                      updateProjectFilter({ status: e.target.value })
+                    }
                   >
                     <option value="">Filter</option>
                     <option value="To Do">To Do</option>
