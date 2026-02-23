@@ -1,0 +1,404 @@
+/* ===== Dashboard (content area) ===== */
+.dashboard {
+  margin-left: 290px; /* updated */
+  margin-top: 10px; /* added */
+  min-height: calc(100vh - 20px); /* adjusts for top margin */
+  padding: 24px;
+
+  overflow: auto;
+  width: calc(100vw - 290px); /* updated */
+  max-width: calc(100vw - 290px); /* updated */
+}
+
+/* For medium screens (optional padding adjustments) */
+@media (max-width: 1200px) {
+  .dashboard {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .dashboard {
+    padding: 16px;
+  }
+}
+
+/* Mobile & tablet view */
+@media (max-width: 768px) {
+  .dashboard {
+    margin-left: 0; /* sidebar hidden */
+    margin-top: 20px; /* keep top space */
+    width: 100vw;
+    max-width: 100vw;
+  }
+}
+
+/* Tablet & below: sidebar becomes off-canvas; content should take full width */
+@media (max-width: 768px) {
+  .dashboard {
+    margin-left: 0;
+    width: 100vw;
+    max-width: 100vw;
+  }
+}
+
+/* Optional helper: a top bar area inside dashboard */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Optional grid for cards/sections (works great with Bootstrap too) */
+.dashboard-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+/* Example responsive spans (use on children) */
+.col-12 {
+  grid-column: span 12;
+}
+.col-6 {
+  grid-column: span 6;
+}
+.col-4 {
+  grid-column: span 4;
+}
+.col-3 {
+  grid-column: span 3;
+}
+
+@media (max-width: 1200px) {
+  .col-lg-6 {
+    grid-column: span 6;
+  }
+  .col-lg-12 {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 992px) {
+  .col-md-6 {
+    grid-column: span 6;
+  }
+  .col-md-12 {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-sm-12 {
+    grid-column: span 12;
+  }
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background-color: whitesmoke;
+  color: #fff;
+  padding: 20px;
+}
+
+/* Brand */
+.brand {
+  color: black;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.line {
+  color: gray;
+}
+
+/* Sidebar links */
+.sidebar .nav-link {
+  color: grey;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: black;
+}
+
+.sidebar .nav-link.active {
+  background-color: black;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .content {
+    margin-left: 0;
+  }
+}
+
+/* Centers content and nudges it slightly upward; fully responsive */
+.empty-center {
+  min-height: 60vh; /* leaves room for the header on small screens */
+  display: flex;
+  flex-direction: column; /* stack p + button vertically */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transform: translateY(-4%); /* subtle lift on mobile */
+}
+
+/* Medium and up: give more vertical space and a bit more lift */
+@media (min-width: 768px) {
+  .empty-center {
+    min-height: calc(
+      100vh - 200px
+    ); /* loosely accounts for header + top spacing */
+    transform: translateY(-8%);
+  }
+}
+
+/* Place in your global CSS (e.g., index.css) or a module imported by the component */
+
+/* Avatar scales between 44px and 64px depending on viewport, with a comfortable mid value. */
+.avatar-initials {
+  width: clamp(44px, 7vw, 64px);
+  height: clamp(44px, 7vw, 64px);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initials span {
+  /* Font size tracks the avatar size */
+  font-size: clamp(14px, 2.2vw, 20px);
+  letter-spacing: 0.4px;
+}
+
+/* Utility to prevent text overflow on very narrow screens */
+.min-w-0 {
+  min-width: 0;
+}
+
+/* Card + brand */
+.auth-card {
+  border-radius: 12px;
+}
+.brand-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #111;
+}
+
+/* Compact inputs and consistent feel */
+.input-group-sm .form-control,
+.form-control-sm {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Subtle hover for primary action */
+.btn-dark:hover {
+  filter: brightness(0.95);
+}
+
+/* Accessible focus ring */
+.form-control:focus,
+.btn:focus {
+  box-shadow: 0 0 0 0.18rem rgba(33, 37, 41, 0.2);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  transition: 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+/* task-details.css */
+.badge.fw-medium {
+  font-weight: 600;
+}
+.card.rounded-4 {
+  border-radius: 1rem;
+}
+
+/* src/components/project-details-card.css */
+
+/* Card container */
+.pdc-card {
+  border-radius: 14px; /* rounded corners like screenshot */
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08); /* soft, wide shadow */
+}
+
+/* Section title */
+.pdc-title {
+  font-weight: 500;
+  color: #1f2937; /* dark gray */
+}
+
+/* New Task button (blue, rounded, with subtle shadow) */
+.pdc-new-btn {
+  background-color: #3b82f6; /* Blue-500 */
+  border-color: #3b82f6;
+  color: #fff;
+  border-radius: 8px;
+  padding: 0.5rem 0.9rem;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset,
+    0 2px 6px rgba(59, 130, 246, 0.25);
+}
+.pdc-new-btn:hover {
+  background-color: #2563eb; /* Blue-600 */
+  border-color: #2563eb;
+}
+
+/* Table head to look like soft stripe */
+.pdc-thead {
+  background: #f8fafc; /* very light slate */
+}
+.pdc-thead th {
+  font-weight: 600;
+  color: #6b7280; /* muted gray */
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* Table rows spacing & separators */
+.pdc-table {
+  margin-bottom: 0.25rem;
+}
+.pdc-table td,
+.pdc-table th {
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+.pdc-row:not(:last-child) td {
+  border-bottom: 1px solid #eef2f7;
+}
+
+/* Task link style */
+.pdc-link {
+  color: #111827; /* almost black */
+  font-weight: 400;
+}
+.pdc-link:hover {
+  text-decoration: underline;
+}
+
+/* Owner cell */
+.pdc-owner-name {
+  color: #374151;
+  font-weight: 400;
+}
+
+/* Avatar stack (two small overlapping circles) */
+.pdc-avatar-stack {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.25rem;
+}
+.pdc-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  overflow: hidden;
+  background: #e5e7eb;
+  position: relative;
+}
+.pdc-avatar + .pdc-avatar {
+  margin-left: -8px; /* overlap */
+}
+.pdc-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pdc-avatar-placeholder {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #f3f4f6, #e5e7eb);
+}
+
+/* Date cell */
+.pdc-date {
+  color: #111827;
+  font-weight: 400;
+}
+
+/* Status pills (exact soft tones & rounded) */
+.pdc-pill {
+  display: inline-block;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+.pdc-pill-progress {
+  background: #fdecc8; /* warm amber light */
+  color: #a16207; /* amber-700 */
+  border-color: #fbd38d;
+}
+.pdc-pill-done {
+  background: #d1fae5; /* emerald-100 */
+  color: #065f46; /* emerald-800 */
+  border-color: #a7f3d0;
+}
+.pdc-pill-notstarted {
+  background: #fee2e2; /* red-100 */
+  color: #991b1b; /* red-800 */
+  border-color: #fecaca;
+}
+.pdc-pill-muted {
+  background: #e5e7eb;
+  color: #374151;
+  border-color: #d1d5db;
+}
+
+/* Filters / Sort row */
+.pdc-filters {
+  border-top: 1px solid #eef2f7; /* subtle divider like screenshot */
+  padding-top: 0.75rem;
+}
+.pdc-filter-label {
+  font-weight: 700;
+  color: #374151;
+}
+
+/* Pill-like dropdown buttons */
+.pdc-pill-btn {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.35rem 0.6rem;
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.06);
+}
+.pdc-pill-btn:hover {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+/* Modal: match card styling subtly */
+.pdc-modal {
+  border-radius: 14px;
+}
