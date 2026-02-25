@@ -23,7 +23,7 @@ const Teams = () => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch("http://localhost:5000/team", {
+      const response = await fetch("https://work-in-backend.vercel.app/team", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

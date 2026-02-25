@@ -63,7 +63,7 @@ const ProjectDetailsCard = ({ project, tasks = [], owners = [] }) => {
       setIsSubmitting(true);
 
       // POST to your API (replace with your route & auth)
-      const res = await fetch("http://localhost:5000/task", {
+      const res = await fetch("https://work-in-backend.vercel.app/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const ProjectDetailsCard = ({ project, tasks = [], owners = [] }) => {
     try {
       setIsSubmitting(true);
       const response = await fetch(
-        `http://localhost:5000/project/${projectId}`,
+        `https://work-in-backend.vercel.app/project/${projectId}`,
         {
           method: "PATCH",
           headers: {

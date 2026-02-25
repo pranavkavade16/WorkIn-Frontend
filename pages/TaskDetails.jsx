@@ -16,7 +16,7 @@ const TaskDetails = () => {
 
   const handleCompleteTask = async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:5000/task/${taskId}`, {
+      const response = await fetch(`https://work-in-backend.vercel.app/task/${taskId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

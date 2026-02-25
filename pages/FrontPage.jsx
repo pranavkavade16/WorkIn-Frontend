@@ -37,16 +37,13 @@ const FrontPage = () => {
     loading: filteredProjectLoading,
     updateFilter: updateProjectFilter,
     clearFilters: clearProjectFilters,
-  } = useFilter("http://localhost:5000/project", { paramPrefix: "p" });
+  } = useFilter("https://work-in-backend.vercel.app/project", { paramPrefix: "p" });
 
   const {
     data: filteredTaskData,
     updateFilter: updateTaskFilter,
     clearFilters: clearTaskFilters,
-  } = useFilter("http://localhost:5000/task", { paramPrefix: "t" });
-
-  console.log("tasks", taskData);
-  console.log("users", usersData);
+  } = useFilter("https://work-in-backend.vercel.app/task", { paramPrefix: "t" });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -81,7 +78,7 @@ const FrontPage = () => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch("http://localhost:5000/project", {
+      const response = await fetch("https://work-in-backend.vercel.app/project", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -107,7 +104,7 @@ const FrontPage = () => {
       setIsSubmitting(true);
 
       // POST to your API (replace with your route & auth)
-      const res = await fetch("http://localhost:5000/task", {
+      const res = await fetch("https://work-in-backend.vercel.app/task", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +140,7 @@ const FrontPage = () => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch(`http://localhost:5000/task/${taskId}`, {
+      const response = await fetch(`https://work-in-backend.vercel.app/task/${taskId}`, {
         method: "DELETE",
       });
 

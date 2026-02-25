@@ -65,7 +65,7 @@ const TaskDetailsCard = ({
   const handleCompleteTask = async (taskId) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/task/${taskId}/complete`,
+        `https://work-in-backend.vercel.app/task/${taskId}/complete`,
         {
           method: "PATCH",
           headers: {
