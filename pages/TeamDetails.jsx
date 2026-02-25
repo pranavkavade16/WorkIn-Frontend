@@ -1,4 +1,4 @@
-import TeamDetailsCard from "../components/cards/TaskDetailsCard";
+import TeamDetailsCard from "../components/cards/TeamDetailsCard";
 import { useParams, useNavigate } from "react-router-dom";
 import useWorkInContext from "../context/workInContext";
 

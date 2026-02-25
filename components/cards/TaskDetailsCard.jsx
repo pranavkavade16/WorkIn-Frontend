@@ -98,24 +98,24 @@ const TaskDetailsCard = ({
               className={`badge rounded-pill px-3 py-2 ${tone.bg} ${tone.text} fw-medium`}
               style={{ letterSpacing: ".3px" }}
             >
-              {task.status}
+              {task?.status}
             </span>
           </div>
 
           {/* LEFT-STACKED FIELDS */}
           <div className="d-flex flex-column">
-            <Field label="Project">{task.project.name}</Field>
-            <Field label="Team">{task.team?.name}</Field>
+            <Field label="Project">{task?.project?.name}</Field>
+            <Field label="Team">{task?.team?.name}</Field>
             <Field label="Owners">
-              {task.owners?.length
+              {task?.owners?.length
                 ? task.owners?.map((owner) => owner.name).join(", ")
                 : "-"}
             </Field>
             <Field label="Tags">
-              <Tags items={task.tags} />
+              <Tags items={task?.tags} />
             </Field>
             <Field label="Due Date" strong>
-              {formatDate(task.createdAt)}
+              {formatDate(task?.createdAt)}
             </Field>
           </div>
 
@@ -126,14 +126,14 @@ const TaskDetailsCard = ({
           <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
             <div>
               <span className="text-body-secondary me-2">Time Remaining:</span>
-              <span className="fw-semibold">{task.timeToComplete} Days</span>
+              <span className="fw-semibold">{task?.timeToComplete} Days</span>
             </div>
 
             <div className="d-flex gap-2">
               <button
                 type="button"
                 className="btn btn-dark btn-sm"
-                onClick={() => handleCompleteTask(task._id)}
+                onClick={() => handleCompleteTask(task?._id)}
               >
                 Mark as Complete
               </button>

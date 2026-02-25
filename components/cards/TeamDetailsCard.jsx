@@ -1,4 +1,4 @@
-import TeamMemberModal from "./TeamMemberModal";
+import TeamMemberModal from "../modals/TeamMemberModal";
 const TeamDetailsCard = ({
   team,
   members = [],
