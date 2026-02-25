@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useWorkInContext from "../context/workInContext";
 
 const SignUp = () => {
+  const { showToast } = useWorkInContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isPassowrdMatching, setIsPasswordMatch] = useState(false);
 
   const [user, setUser] = useState({
     name: "",
@@ -11,9 +15,11 @@ const SignUp = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const AddUser = async () => {
     if (user.password !== confirmPassword) {
-      alert("Passwords do not match");
+      setIsPasswordMatch(!isPassowrdMatching);
       return;
     }
 
@@ -32,6 +38,8 @@ const SignUp = () => {
 
       const newUser = await response.json();
       console.log("User created successfully", newUser);
+      showToast("Account created successfully!!");
+      navigate("/");
     } catch (error) {
       console.log("Failed to create a new user", error.message);
     }
@@ -163,6 +171,11 @@ const SignUp = () => {
                     />
                   </div>
 
+                  {isPassowrdMatching && (
+                    <div className="alert alert-danger py-1 small" role="alert">
+                      <p>Password does not match!!</p>
+                    </div>
+                  )}
                   <button
                     type="submit"
                     className="btn btn-dark btn-sm w-100 rounded-3 py-2"

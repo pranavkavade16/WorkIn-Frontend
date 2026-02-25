@@ -30,6 +30,9 @@ const FrontPage = () => {
     taskLoading,
     taskError,
     fetchTasks,
+
+    showToast,
+    toastMessage,
   } = useWorkInContext();
   const {
     data: filteredProjectData,
@@ -100,6 +103,7 @@ const FrontPage = () => {
       const newProject = await response.json();
       setProjects((prev) => [...prev, newProject]);
       console.log("Project is created successfully", newProject);
+      showToast("New project added successfully");
     } catch (error) {
       console.log("Failed to create a project", error.message);
     } finally {
@@ -125,6 +129,7 @@ const FrontPage = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to create task");
       console.log("task created successfully", data);
+      showToast("A new task created successfully.");
 
       // Reset form
       reset();
@@ -163,6 +168,7 @@ const FrontPage = () => {
       const deletedTask = await response.json();
 
       console.log("Task deleted successfully", deletedTask);
+      showToast("Task deleted successfully.");
     } catch (error) {
       console.log("Failed to delete the task", error.message);
     }

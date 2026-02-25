@@ -14,6 +14,7 @@ import ProjectDetails from "../pages/ProjectDetails";
 import Teams from "../pages/Teams";
 import TeamDetails from "../pages/TeamDetails";
 import Reports from "../pages/Reports";
+import Toast from "../components/Toast";
 
 import {
   RequireAuth,
@@ -53,6 +54,7 @@ function App() {
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          <Toast />
         </BrowserRouter>
       </WorkInProvider>
     </>

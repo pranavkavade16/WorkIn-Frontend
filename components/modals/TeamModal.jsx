@@ -92,6 +92,7 @@ const TeamModal = ({
                     className={`form-control form-control-sm ${
                       errors.name ? "is-invalid" : ""
                     }`}
+                    required
                     placeholder="Enter team name (must be unique)"
                     name="name"
                     value={formData.name}
@@ -110,6 +111,7 @@ const TeamModal = ({
                     className={`form-select form-select-sm ${
                       errors.members ? "is-invalid" : ""
                     }`}
+                    required
                     name="members"
                     value={formData.members}
                     onChange={handleMembersChange}
@@ -137,6 +139,7 @@ const TeamModal = ({
                     rows={3}
                     className="form-control form-control-sm"
                     placeholder="Short description of the team"
+                    required
                     name="description"
                     value={formData.description}
                     onChange={handleChange}

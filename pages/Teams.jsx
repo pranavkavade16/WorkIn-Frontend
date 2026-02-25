@@ -5,7 +5,7 @@ import { useState } from "react";
 import TeamModal from "../components/modals/TeamModal";
 import useSearch from "../customHooks/useSearch";
 const Teams = () => {
-  const { teamData, teamLoading, teamError, usersData, fetchTeams } =
+  const { teamData, teamLoading, teamError, usersData, showToast } =
     useWorkInContext();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -33,6 +33,7 @@ const Teams = () => {
       if (!response.ok) throw new Error("Failed to create a team");
 
       console.log("Team created successfully.", team);
+      showToast("Team created successfuly.");
     } catch (error) {
       console.log("Failed to create a team", error.message);
     } finally {
@@ -55,6 +56,7 @@ const Teams = () => {
       const deletedTeam = await resposne.json();
 
       console.log("Team deleted sucessfully", deletedTeam);
+      showToast("Team deleted successfully");
     } catch (error) {
       console.log("Failed to delete the team", deletedTeam);
     }

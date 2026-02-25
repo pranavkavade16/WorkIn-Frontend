@@ -9,6 +9,12 @@ export default useWorkInContext;
 
 export function WorkInProvider({ children }) {
   const [projects, setProjects] = useState([]);
+  const [toastMessage, setToastMessage] = useState({
+    visible: false,
+    message: "",
+    title: "Notification",
+    id: 0,
+  });
   const {
     data: projectData,
     loading: projectLoading,
@@ -53,6 +59,14 @@ export function WorkInProvider({ children }) {
     fetchTasks();
   }, [fetchTasks]);
 
+  const showToast = (message, title = "Notification") => {
+    setToastMessage({ visible: true, message, title, id: Date.now() });
+  };
+
+  const hideToast = () => {
+    setToastMessage((prev) => ({ ...prev, visible: false }));
+  };
+
   return (
     <WorkInContext.Provider
       value={{
@@ -78,6 +92,11 @@ export function WorkInProvider({ children }) {
         taskLoading,
         taskError,
         fetchTasks,
+
+        toastMessage,
+        setToastMessage,
+        hideToast,
+        showToast,
       }}
     >
       {children}

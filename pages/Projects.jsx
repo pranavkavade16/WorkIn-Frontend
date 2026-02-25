@@ -5,7 +5,7 @@ import useSearch from "../customHooks/useSearch";
 import useFilter from "../customHooks/useFilter";
 
 const Projects = () => {
-  const { projectData, projectLoading, projectError, fetchProject } =
+  const { projectLoading, projectError, fetchProject, showToast } =
     useWorkInContext();
 
   const {
@@ -54,6 +54,7 @@ const Projects = () => {
       }
 
       await response.json();
+      showToast("Project added successfully.");
     } catch (error) {
       console.log("Failed to create a project", error.message);
     } finally {

@@ -131,6 +131,7 @@ const TaskModal = ({
                     className={`form-control form-control-sm ${
                       errors.name ? "is-invalid" : ""
                     }`}
+                    required
                     placeholder="Enter task name"
                     name="name"
                     value={formData.name}
@@ -149,6 +150,7 @@ const TaskModal = ({
                       errors.project ? "is-invalid" : ""
                     }`}
                     name="project"
+                    required
                     value={formData.project}
                     onChange={handleChange}
                   >
@@ -172,6 +174,7 @@ const TaskModal = ({
                       errors.team ? "is-invalid" : ""
                     }`}
                     name="team"
+                    required
                     value={formData.team}
                     onChange={handleChange}
                   >
@@ -196,6 +199,7 @@ const TaskModal = ({
                       errors.owners ? "is-invalid" : ""
                     }`}
                     name="owners"
+                    required
                     value={formData.owners}
                     onChange={handleOwnersChange}
                   >
@@ -221,6 +225,7 @@ const TaskModal = ({
                   <select
                     className="form-select form-select-sm"
                     name="status"
+                    required
                     value={formData.status}
                     onChange={handleChange}
                   >
@@ -240,6 +245,7 @@ const TaskModal = ({
                     className={`form-control form-control-sm ${
                       errors.timeToComplete ? "is-invalid" : ""
                     }`}
+                    required
                     placeholder="e.g., 5"
                     name="timeToComplete"
                     value={formData.timeToComplete}
@@ -260,6 +266,7 @@ const TaskModal = ({
                       type="text"
                       className="form-control form-control-sm"
                       placeholder="Type a tag and press Enter"
+                      required
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       onKeyDown={handleTagKeyDown}

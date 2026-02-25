@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useWorkInContext from "../context/workInContext";
 
 const TaskDetails = () => {
-  const { taskData, taskLoading, taskError } = useWorkInContext();
+  const { taskData, taskLoading, taskError, showToast } = useWorkInContext();
   const { taskId } = useParams();
   const navigate = useNavigate();
 
@@ -16,12 +16,15 @@ const TaskDetails = () => {
 
   const handleCompleteTask = async (taskId) => {
     try {
-      const response = await fetch(`https://work-in-backend.vercel.app/task/${taskId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `https://work-in-backend.vercel.app/task/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update the task");
@@ -30,6 +33,7 @@ const TaskDetails = () => {
       const completedTask = await response.json();
 
       console.log("Task updated successfully ", completedTask);
+      showToast("Task completed.");
     } catch (error) {
       console.log("Failed to update the task", error.message);
     }
