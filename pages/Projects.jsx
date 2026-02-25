@@ -3,6 +3,7 @@ import useWorkInContext from "../context/workInContext";
 import ProjectCard from "../components/cards/ProjectCard";
 import useSearch from "../customHooks/useSearch";
 import useFilter from "../customHooks/useFilter";
+
 const Projects = () => {
   const { projectData, projectLoading, projectError, fetchProject } =
     useWorkInContext();
@@ -15,18 +16,23 @@ const Projects = () => {
     clearFilters: clearProjectFilters,
   } = useFilter("http://localhost:5000/project", { paramPrefix: "p" });
 
-  console.log(projectData);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Safe array handling
   const projectList = Array.isArray(filteredProjectData.projects)
     ? filteredProjectData.projects
     : [];
 
   const { setSearch, searchedProjects } = useSearch(projectList);
+
+  // Combined states (professional pattern)
+  const isProjectLoading = projectLoading || filteredProjectLoading;
+  const isProjectError = projectError || filteredProjectError;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -47,8 +53,7 @@ const Projects = () => {
         throw new Error("Failed to create a project");
       }
 
-      const newProject = await response.json();
-      console.log("Project is created successfully", newProject);
+      await response.json();
     } catch (error) {
       console.log("Failed to create a project", error.message);
     } finally {
@@ -56,6 +61,7 @@ const Projects = () => {
       fetchProject();
     }
   };
+
   return (
     <div className="dashboard">
       {/* Header */}
@@ -67,20 +73,18 @@ const Projects = () => {
           </h6>
         </div>
 
-        <div>
-          <button
-            className="btn btn-dark btn-sm d-flex align-items-center gap-2 px-3 py-2 rounded-3 flex-shrink-0"
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#newProjectModal"
-            data-bs-whatever="@getbootstrap"
-          >
-            <i className="bi bi-plus-lg"></i>
-            New Project
-          </button>
-        </div>
+        <button
+          className="btn btn-dark btn-sm d-flex align-items-center gap-2 px-3 py-2 rounded-3"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#newProjectModal"
+        >
+          <i className="bi bi-plus-lg"></i>
+          New Project
+        </button>
       </div>
 
+      {/* Search + Filter */}
       <div className="d-flex align-items-center gap-3">
         <div className="input-group flex-grow-1 mt-5">
           <span className="input-group-text bg-white border-end-0">
@@ -93,17 +97,14 @@ const Projects = () => {
             onChange={(event) => setSearch(event.target.value)}
           />
         </div>
-        <div class="btn-group mt-5">
+
+        <div className="btn-group mt-5">
           <select
-            id="project-status-filter"
             className="form-select"
             onChange={(event) => {
               const value = event.target.value;
-              if (value === "") {
-                clearProjectFilters();
-              } else {
-                updateProjectFilter({ status: value });
-              }
+              if (value === "") clearProjectFilters();
+              else updateProjectFilter({ status: value });
             }}
             defaultValue=""
           >
@@ -116,26 +117,34 @@ const Projects = () => {
         </div>
       </div>
 
-      {projectData.length === 0 && (
+      {/* ================= LOADING ================= */}
+      {isProjectLoading ? (
+        <div className="d-flex flex-column justify-content-center align-items-center py-5">
+          <div className="spinner-border text-dark mb-3" role="status" />
+          <p className="text-dark fs-5">Loading projects...</p>
+        </div>
+      ) : /* ================= ERROR ================= */
+      isProjectError ? (
+        <div className="text-center py-5 text-danger">
+          <p>Failed to load projects.</p>
+        </div>
+      ) : /* ================= EMPTY ================= */
+      searchedProjects.length === 0 ? (
         <div className="empty-center">
-          <p className="text-muted mb-0 fs-5 text-center mb-2">
-            No project yet
-          </p>
+          <p className="text-muted fs-5 text-center mb-2">No project yet</p>
 
           <button
             type="button"
             className="btn btn-outline-dark d-inline-flex align-items-center gap-2 px-3"
             data-bs-toggle="modal"
             data-bs-target="#newProjectModal"
-            data-bs-whatever="@getbootstrap"
           >
             <i className="bi bi-plus-lg"></i>
             Create your first project
           </button>
         </div>
-      )}
-
-      {searchedProjects.length > 0 ? (
+      ) : (
+        /* ================= DATA ================= */
         <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3 mt-5">
           {searchedProjects.map((project) => (
             <div
@@ -143,7 +152,7 @@ const Projects = () => {
               key={project._id || project.id || project.name}
             >
               <ProjectCard
-                className="h-100" // <- ensure card stretches to same height
+                className="h-100"
                 project={project}
                 name={project.name}
                 description={project.description}
@@ -157,78 +166,59 @@ const Projects = () => {
             </div>
           ))}
         </div>
-      ) : (
-        <div className="empty-center">
-          <h6>No project found</h6>
-        </div>
       )}
 
-      {/* Model for new project */}
-
+      {/* Modal */}
       <div
-        class="modal fade"
+        className="modal fade"
         id="newProjectModal"
-        tabindex="-1"
-        aria-labelledby="newProjectModalLabel"
+        tabIndex="-1"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="newProjectModalLabel">
-                Create a new project
-              </h1>
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1 className="modal-title fs-5">Create a new project</h1>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              />
             </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">
-                    Project Name:
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Enter project name"
-                    id="recipient-name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="message-text" class="col-form-label">
-                    Description:
-                  </label>
-                  <textarea
-                    class="form-control"
-                    id="message-text"
-                    placeholder="Enter project description"
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                  ></textarea>
-                </div>
-              </form>
+
+            <div className="modal-body">
+              <div className="mb-3">
+                <label className="col-form-label">Project Name:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="col-form-label">Description:</label>
+                <textarea
+                  className="form-control"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div class="modal-footer">
+
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-dark"
+                className="btn btn-dark"
                 data-bs-dismiss="modal"
               >
                 Cancel
               </button>
-              <button
-                type="button"
-                class="btn btn-dark"
-                onClick={() => handleAddProject()}
-              >
+
+              <button className="btn btn-dark" onClick={handleAddProject}>
                 {isSubmitting ? "Creating.." : "Create"}
               </button>
             </div>

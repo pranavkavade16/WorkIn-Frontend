@@ -105,15 +105,32 @@ const Teams = () => {
       </div>
 
       <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
-        {searchedTeams?.map((team) => (
-          <div key={team._id}>
-            <TeamCard
-              team={team}
-              teamId={team._id}
-              deleteTeam={handleDeleteTeam}
-            />
+        {teamLoading ? (
+          <div className="d-flex flex-column justify-content-center align-items-center py-5">
+            <div className="spinner-border text-dark mb-3" role="status" />
+            <p className="text-dark fs-5">Loading teams...</p>
           </div>
-        ))}
+        ) : teamError ? (
+          <div className="text-center py-5 text-danger">
+            <p>Failed to load teams.</p>
+          </div>
+        ) : searchedTeams.length === 0 ? (
+          <div className="text-center py-5">
+            <h6>No teams yet. Create your first team 🚀</h6>
+          </div>
+        ) : (
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
+            {searchedTeams.map((team) => (
+              <div key={team._id}>
+                <TeamCard
+                  team={team}
+                  teamId={team._id}
+                  deleteTeam={handleDeleteTeam}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
