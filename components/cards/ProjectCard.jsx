@@ -12,7 +12,6 @@ const ProjectCard = ({
   status,
   date,
   projectId,
-  deleteProject,
 }) => {
   return (
     <div
@@ -54,14 +53,6 @@ const ProjectCard = ({
               </li>
               <li>
                 <hr className="dropdown-divider" />
-              </li>
-              <li>
-                <button
-                  className="dropdown-item text-danger"
-                  onClick={() => deleteProject(projectId)}
-                >
-                  Delete
-                </button>
               </li>
             </ul>
           </div>
