@@ -37,13 +37,19 @@ const FrontPage = () => {
     loading: filteredProjectLoading,
     updateFilter: updateProjectFilter,
     clearFilters: clearProjectFilters,
-  } = useFilter("https://work-in-backend.vercel.app/project", { paramPrefix: "p" });
+  } = useFilter("https://work-in-backend.vercel.app/project", {
+    paramPrefix: "p",
+  });
 
   const {
     data: filteredTaskData,
+    error: filteredTaskError,
+    loading: filteredTaskLoading,
     updateFilter: updateTaskFilter,
     clearFilters: clearTaskFilters,
-  } = useFilter("https://work-in-backend.vercel.app/task", { paramPrefix: "t" });
+  } = useFilter("https://work-in-backend.vercel.app/task", {
+    paramPrefix: "t",
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -78,11 +84,14 @@ const FrontPage = () => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch("https://work-in-backend.vercel.app/project", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://work-in-backend.vercel.app/project",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        },
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create a project");
@@ -140,9 +149,12 @@ const FrontPage = () => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch(`https://work-in-backend.vercel.app/task/${taskId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://work-in-backend.vercel.app/task/${taskId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete the task");
@@ -221,8 +233,21 @@ const FrontPage = () => {
               </div>
             </div>
 
-            {/* Grid for project cards */}
-            {searchedProjects.length > 0 ? (
+            {filteredProjectLoading ? (
+              <div className="d-flex flex-column justify-content-center align-items-center py-5">
+                <div className="spinner-border text-dark mb-3" role="status" />
+                <p className="text-dark fs-5">Loading projects...</p>
+              </div>
+            ) : filteredProjectError ? (
+              <div className="text-center py-5 text-danger">
+                <p>Failed to load projects.</p>
+              </div>
+            ) : searchedProjects.length === 0 ? (
+              <div className="text-center py-5">
+                <h6>No projects found</h6>
+              </div>
+            ) : (
+              // ✅ DATA
               <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
                 {searchedProjects.map((project) => (
                   <div
@@ -230,7 +255,7 @@ const FrontPage = () => {
                     key={project._id || project.id || project.name}
                   >
                     <ProjectCard
-                      className="h-100" // <- ensure card stretches to same height
+                      className="h-100"
                       project={project}
                       name={project.name}
                       description={project.description}
@@ -246,10 +271,6 @@ const FrontPage = () => {
                     />
                   </div>
                 ))}
-              </div>
-            ) : (
-              <div className="d-flex justify-content-center">
-                <h6 className="mt-5">No projects found</h6>
               </div>
             )}
           </div>
@@ -305,12 +326,25 @@ const FrontPage = () => {
               </div>
             </div>
             {/* Grid for task cards */}
-            {searchedTasks.length > 0 ? (
+            {filteredTaskLoading ? (
+              <div className="d-flex flex-column justify-content-center align-items-center py-5">
+                <div className="spinner-border text-dark mb-3" role="status" />
+                <p className="text-dark fs-5">Loading tasks...</p>
+              </div>
+            ) : filteredTaskError ? (
+              <div className="text-center py-5 text-danger">
+                <p>Failed to load tasks.</p>
+              </div>
+            ) : searchedTasks.length === 0 ? (
+              <div className="text-center py-5">
+                <h6>No tasks yet. Create your first task 🚀</h6>
+              </div>
+            ) : (
               <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
                 {searchedTasks.map((task) => (
                   <div className="col" key={task._id || task.id || task.name}>
                     <TaskCard
-                      className="h-100" // <- equal height
+                      className="h-100"
                       name={task.name}
                       description={task.team?.name}
                       status={task.status}
@@ -327,10 +361,6 @@ const FrontPage = () => {
                     />
                   </div>
                 ))}
-              </div>
-            ) : (
-              <div className="d-flex justify-content-center">
-                <h6 className="mt-5">No task found</h6>
               </div>
             )}
           </div>

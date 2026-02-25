@@ -60,7 +60,7 @@ const TeamCard = ({ team, teamId, deleteTeam }) => {
         {/* Title & description */}
         <h6 className="mb-1 fw-semibold">{team.name}</h6>
         <p className="text-muted small mb-3">
-          {team.description.slice(0, 90)}...
+          {team.description.slice(0, 100)}...
         </p>
         <p>Members: {team.members.length}</p>
       </div>
