@@ -104,7 +104,7 @@ const Teams = () => {
         />
       </div>
 
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
+      <div>
         {teamLoading ? (
           <div className="d-flex flex-column justify-content-center align-items-center py-5">
             <div className="spinner-border text-dark mb-3" role="status" />
