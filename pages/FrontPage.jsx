@@ -36,14 +36,14 @@ const FrontPage = () => {
     error: filteredProjectError,
     loading: filteredProjectLoading,
     updateFilter: updateProjectFilter,
-    filter,
-  } = useFilter("https://work-in-backend.vercel.app/project");
+    clearFilters: clearProjectFilters,
+  } = useFilter("http://localhost:5000/project", { paramPrefix: "p" });
 
-  //   const {
-  //     data: filteredTaskData,
-  //     updateFilter: updateTaskFilter,
-  //     clearFilters: clearTaskFilters,
-  //   } = useFilter("https://work-in-backend.vercel.app/task", { paramPrefix: "t" });
+  const {
+    data: filteredTaskData,
+    updateFilter: updateTaskFilter,
+    clearFilters: clearTaskFilters,
+  } = useFilter("http://localhost:5000/task", { paramPrefix: "t" });
 
   console.log("tasks", taskData);
   console.log("users", usersData);
@@ -63,15 +63,14 @@ const FrontPage = () => {
 
   const userList = Array.isArray(usersData.users) ? usersData.users : [];
 
-  //   const taskList = Array.isArray(filteredTaskData.task)
-  //     ? filteredTaskData.task
-  //     : [];
+  const taskList = Array.isArray(filteredTaskData.task)
+    ? filteredTaskData.task
+    : [];
 
   const { setSearch, searchedProjects, searchedTasks } = useSearch(
     projectList,
-    // taskList,
+    taskList,
   );
-  console.log("front page searchedProjects", searchedProjects);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -195,10 +194,15 @@ const FrontPage = () => {
                   <select
                     id="project-status-filter"
                     className="form-select form-select-sm"
-                    value={filter.status || ""}
-                    onChange={(e) =>
-                      updateProjectFilter({ status: e.target.value })
-                    }
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (value === "") {
+                        clearProjectFilters();
+                      } else {
+                        updateProjectFilter({ status: value });
+                      }
+                    }}
+                    defaultValue=""
                   >
                     <option value="">Filter</option>
                     <option value="To Do">To Do</option>
@@ -265,14 +269,14 @@ const FrontPage = () => {
                   <select
                     id="status-task-filter"
                     className="form-select form-select-sm"
-                    // onChange={(event) => {
-                    //   const value = event.target.value;
-                    //   if (value === "") {
-                    //     clearTaskFilters();
-                    //   } else {
-                    //     updateTaskFilter({ status: value });
-                    //   }
-                    // }}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (value === "") {
+                        clearTaskFilters();
+                      } else {
+                        updateTaskFilter({ status: value });
+                      }
+                    }}
                     defaultValue=""
                   >
                     <option value="">Filter</option>
