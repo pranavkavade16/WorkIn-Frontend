@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Dropdown } from "bootstrap";
 const STATUS_COLORS = {
   "TO DO": "secondary",
   "IN PROGRESS": "warning",
@@ -6,6 +7,7 @@ const STATUS_COLORS = {
   BLOCKED: "danger",
 };
 const TaskCard = ({
+  task,
   name,
   description,
   status = "IN PROGRESS",
@@ -33,7 +35,7 @@ const TaskCard = ({
             <button
               className="btn btn-link text-muted p-0"
               type="button"
-              id="projectMenuBtn"
+              id={`projectMenuBtn-${task._id}`}
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
@@ -41,7 +43,7 @@ const TaskCard = ({
             </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
-              aria-labelledby="projectMenuBtn"
+              aria-labelledby={`projectMenuBtn-${task._id}`}
             >
               <li>
                 <Link className="dropdown-item" to={`/taskDetails/${taskId}`}>

@@ -1,3 +1,4 @@
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
 const STATUS_COLORS = {
   "TO DO": "secondary",
@@ -5,21 +6,13 @@ const STATUS_COLORS = {
   COMPLETED: "success",
   BLOCKED: "danger",
 };
-const ProjectCard = ({
-  project,
-  name,
-  description,
-  status,
-  date,
-  projectId,
-}) => {
+const ProjectCard = ({ project }) => {
   return (
     <div
       className="card border-1 shadow-sm rounded-4 mb-3 card-hover"
       style={{ width: "330px", height: "200px" }}
     >
       <div className="card-body p-3 d-flex flex-column">
-        {/* Top row: doc icon + menu */}
         <div className="d-flex align-items-center mb-2">
           <div
             className="rounded-3 bg-light d-inline-flex align-items-center justify-content-center me-auto"
@@ -28,25 +21,26 @@ const ProjectCard = ({
             <i className="bi bi-file-earmark-text text-secondary" />
           </div>
 
-          {/* 3-dot menu */}
           <div className="dropdown">
             <button
               className="btn btn-link text-muted p-0"
               type="button"
-              id="projectMenuBtn"
+              id={`projectMenuBtn-${project._id}`}
               data-bs-toggle="dropdown"
               aria-expanded="false"
+              onClick={(e) => e.stopPropagation()}
             >
               <i className="bi bi-three-dots-vertical" />
             </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
-              aria-labelledby="projectMenuBtn"
+              style={{ zIndex: 1050 }}
+              aria-labelledby={`projectMenuBtn-${project._id}`}
             >
               <li>
                 <Link
                   className="dropdown-item"
-                  to={`/projectDetails/${projectId}`}
+                  to={`/projectDetails/${project?._id}`}
                 >
                   Open
                 </Link>
@@ -58,16 +52,20 @@ const ProjectCard = ({
           </div>
         </div>
 
-        {/* Title & description */}
-        <h6 className="mb-1 fw-semibold">{name}</h6>
-        <p className="text-muted small mb-3">{description}</p>
+        <h6 className="mb-1 fw-semibold">{project?.name}</h6>
+        <p className="text-muted small mb-3">{project?.description}</p>
 
-        {/* Footer row: status pill + date */}
         <div className="d-flex align-items-center mt-auto">
           <span className="badge rounded-pill text-bg-warning-subtle border border-warning text-warning-emphasis me-auto">
             {project?.status}
           </span>
-          <small className="text-muted">{date}</small>
+          <small className="text-muted">
+            {new Date(project.createdAt).toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </small>
         </div>
       </div>
     </div>

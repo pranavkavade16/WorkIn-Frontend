@@ -26,7 +26,7 @@ const TeamCard = ({ team, teamId, deleteTeam }) => {
             <button
               className="btn btn-link text-muted p-0"
               type="button"
-              id="projectMenuBtn"
+              id={`projectMenuBtn-${team._id}`}
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
@@ -34,7 +34,7 @@ const TeamCard = ({ team, teamId, deleteTeam }) => {
             </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
-              aria-labelledby="projectMenuBtn"
+              aria-labelledby={`projectMenuBtn-${team._id}`}
             >
               <li>
                 <Link className="dropdown-item" to={`/teamDetails/${teamId}`}>

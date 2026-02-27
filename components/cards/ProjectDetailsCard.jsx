@@ -1,4 +1,3 @@
-// src/components/ProjectDetailsCard.jsx
 import { Link } from "react-router-dom";
 import { useId, useMemo, useState } from "react";
 import TaskModal from "../modals/TaskModal";
@@ -42,7 +41,7 @@ const StatusPill = ({ status = "" }) => {
   return <span className={cls}>{s || "—"}</span>;
 };
 
-const ProjectDetailsCard = ({ project, tasks = [], owners = [] }) => {
+const ProjectDetailsCard = ({ project, tasks = [] }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { projectData, teamData, usersData, taskData } = useWorkInContext();
 

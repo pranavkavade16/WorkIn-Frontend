@@ -5,7 +5,8 @@
   min-height: calc(100vh - 20px); /* adjusts for top margin */
   padding: 24px;
 
-  overflow: auto;
+ overflow-x: hidden;
+  overflow-y: auto;
   width: calc(100vw - 290px); /* updated */
   max-width: calc(100vw - 290px); /* updated */
 }

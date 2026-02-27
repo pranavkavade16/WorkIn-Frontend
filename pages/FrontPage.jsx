@@ -351,6 +351,7 @@ const FrontPage = () => {
                   <div className="col" key={task._id || task.id || task.name}>
                     <TaskCard
                       className="h-100"
+                      task={task}
                       name={task.name}
                       description={task.team?.name}
                       status={task.status}
