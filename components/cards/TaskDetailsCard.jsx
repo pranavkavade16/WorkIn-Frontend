@@ -45,21 +45,9 @@ const Tags = ({ items }) => {
   );
 };
 
-const TaskDetailsCard = ({
-  task,
-  title = "Build Authentication Flow",
-  status = "IN PROGRESS",
-  project = "Backend Dev",
-  team = "Engineering",
-  owners = ["John", "Priya"],
-  tags = ["frontend", "auth"],
-  dueDate = "2026-02-20",
-  onBack,
-  completeTask,
-  onEdit,
-}) => {
+const TaskDetailsCard = ({ task }) => {
   const tone = statusTone(task?.status);
-  const dLeft = daysRemaining(dueDate);
+
   console.log(task);
 
   const handleCompleteTask = async (taskId) => {

@@ -1,7 +1,6 @@
 import TeamMemberModal from "../modals/TeamMemberModal";
 const TeamDetailsCard = ({
   team,
-  members = [],
   loading = false,
   error = null,
 }) => {
