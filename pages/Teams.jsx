@@ -1,6 +1,6 @@
 import TeamCard from "../components/cards/TeamCard";
 import useWorkInContext from "../context/workInContext";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState } from "react";
 import TeamModal from "../components/modals/TeamModal";
 import useSearch from "../customHooks/useSearch";
@@ -16,8 +16,6 @@ const Teams = () => {
   const userList = Array.isArray(usersData.users) ? usersData.users : [];
   const { setSearch, searchedTeams } = useSearch([], [], teamList);
   console.log("teams page", teamList);
-
-  console.log(searchedTeams);
 
   const handleAddTeam = async (payload) => {
     try {
@@ -124,11 +122,16 @@ const Teams = () => {
           <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
             {searchedTeams.map((team) => (
               <div key={team._id}>
-                <TeamCard
-                  team={team}
-                  teamId={team._id}
-                  deleteTeam={handleDeleteTeam}
-                />
+                <Link
+                  to={`/teamDetails/${team._id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <TeamCard
+                    team={team}
+                    teamId={team._id}
+                    deleteTeam={handleDeleteTeam}
+                  />
+                </Link>
               </div>
             ))}
           </div>

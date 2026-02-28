@@ -39,6 +39,29 @@ const TaskDetails = () => {
     }
   };
 
+  const handleDeleteTask = async (taskId) => {
+    try {
+      const response = await fetch(
+        `https://work-in-backend.vercel.app/task/${taskId}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the task");
+      }
+
+      const deletedTask = await response.json();
+
+      console.log("Task deleted successfully", deletedTask);
+      showToast("Task deleted successfully.");
+      navigate("/dashboard");
+    } catch (error) {
+      console.log("Failed to delete the task", error.message);
+    }
+  };
+
   // Loading state
   if (taskLoading) {
     return (
@@ -113,7 +136,11 @@ const TaskDetails = () => {
       <h1 className="display-3">{selectedTask?.name}</h1>
 
       {/* Pass a single task object */}
-      <TaskDetailsCard task={selectedTask} completeTask={handleCompleteTask} />
+      <TaskDetailsCard
+        task={selectedTask}
+        completeTask={handleCompleteTask}
+        deleteTask={handleDeleteTask}
+      />
     </div>
   );
 };

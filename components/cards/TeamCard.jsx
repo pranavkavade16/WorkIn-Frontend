@@ -1,11 +1,4 @@
-import { Link } from "react-router-dom";
-const STATUS_COLORS = {
-  "TO DO": "secondary",
-  "IN PROGRESS": "warning",
-  COMPLETED: "success",
-  BLOCKED: "danger",
-};
-const TeamCard = ({ team, teamId, deleteTeam }) => {
+const TeamCard = ({ team, teamId }) => {
   return (
     <div
       className="card border-1 shadow-sm rounded-4 mb-3 card-hover"
@@ -19,41 +12,6 @@ const TeamCard = ({ team, teamId, deleteTeam }) => {
             style={{ width: 32, height: 32 }}
           >
             <i class="bi bi-people"></i>
-          </div>
-
-          {/* 3-dot menu */}
-          <div className="dropdown">
-            <button
-              className="btn btn-link text-muted p-0"
-              type="button"
-              id={`projectMenuBtn-${team._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i className="bi bi-three-dots-vertical" />
-            </button>
-            <ul
-              className="dropdown-menu dropdown-menu-end"
-              aria-labelledby={`projectMenuBtn-${team._id}`}
-            >
-              <li>
-                <Link className="dropdown-item" to={`/teamDetails/${teamId}`}>
-                  Open
-                </Link>
-              </li>
-
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-              <li>
-                <button
-                  className="dropdown-item text-danger"
-                  onClick={() => deleteTeam(teamId)}
-                >
-                  Delete
-                </button>
-              </li>
-            </ul>
           </div>
         </div>
 

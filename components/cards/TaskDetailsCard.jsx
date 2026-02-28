@@ -7,13 +7,6 @@ const formatDate = (d) => {
   });
 };
 
-const daysRemaining = (d) => {
-  const due = d instanceof Date ? d : new Date(d);
-  const ms = due.setHours(23, 59, 59, 999) - Date.now();
-  const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
-  return Math.max(0, days);
-};
-
 const statusTone = (status) => {
   const s = (status || "").toUpperCase();
   if (s.includes("PROGRESS"))
@@ -45,7 +38,7 @@ const Tags = ({ items }) => {
   );
 };
 
-const TaskDetailsCard = ({ task }) => {
+const TaskDetailsCard = ({ task, deleteTask }) => {
   const tone = statusTone(task?.status);
 
   console.log(task);
@@ -116,15 +109,25 @@ const TaskDetailsCard = ({ task }) => {
               <span className="text-body-secondary me-2">Time Remaining:</span>
               <span className="fw-semibold">{task?.timeToComplete} Days</span>
             </div>
-
-            <div className="d-flex gap-2">
-              <button
-                type="button"
-                className="btn btn-dark btn-sm"
-                onClick={() => handleCompleteTask(task?._id)}
-              >
-                Mark as Complete
-              </button>
+            <div className="d-flex align-items-center justify-content-between">
+              <div className="d-flex gap-2 me-3">
+                <button
+                  type="button"
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteTask(task?._id)}
+                >
+                  Delete
+                </button>
+              </div>
+              <div className="d-flex gap-2">
+                <button
+                  type="button"
+                  className="btn btn-dark btn-sm"
+                  onClick={() => handleCompleteTask(task?._id)}
+                >
+                  Mark as Complete
+                </button>
+              </div>
             </div>
           </div>
         </div>

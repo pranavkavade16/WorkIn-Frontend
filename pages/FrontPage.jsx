@@ -151,30 +151,6 @@ const FrontPage = () => {
     }
   };
 
-  const handleDeleteTask = async (taskId) => {
-    try {
-      setIsSubmitting(true);
-
-      const response = await fetch(
-        `https://work-in-backend.vercel.app/task/${taskId}`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to delete the task");
-      }
-
-      const deletedTask = await response.json();
-
-      console.log("Task deleted successfully", deletedTask);
-      showToast("Task deleted successfully.");
-    } catch (error) {
-      console.log("Failed to delete the task", error.message);
-    }
-  };
-
   return (
     <div className="dashboard">
       {/* Page header */}
