@@ -5,6 +5,7 @@ import TaskModal from "../components/modals/TaskModal";
 import TaskCard from "../components/cards/TaskCard";
 import useFilter from "../customHooks/useFilter";
 import useSearch from "../customHooks/useSearch";
+import { Link } from "react-router-dom";
 
 const FrontPage = () => {
   const {
@@ -260,21 +261,12 @@ const FrontPage = () => {
                     className="col"
                     key={project._id || project.id || project.name}
                   >
-                    <ProjectCard
-                      className="h-100"
-                      project={project}
-                      name={project.name}
-                      description={project.description}
-                      projectId={project._id}
-                      date={new Date(project.createdAt).toLocaleDateString(
-                        "en-US",
-                        {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        },
-                      )}
-                    />
+                    <Link
+                      to={`/projectDetails/${project?._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ProjectCard className="h-100" project={project} />
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -349,23 +341,12 @@ const FrontPage = () => {
               <div className="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
                 {searchedTasks.map((task) => (
                   <div className="col" key={task._id || task.id || task.name}>
-                    <TaskCard
-                      className="h-100"
-                      task={task}
-                      name={task.name}
-                      description={task.team?.name}
-                      status={task.status}
-                      taskId={task._id}
-                      deleteTask={handleDeleteTask}
-                      date={new Date(task.createdAt).toLocaleDateString(
-                        "en-US",
-                        {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        },
-                      )}
-                    />
+                    <Link
+                      to={`/taskDetails/${task._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <TaskCard className="h-100" task={task} />
+                    </Link>
                   </div>
                 ))}
               </div>

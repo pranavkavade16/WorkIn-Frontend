@@ -43,7 +43,8 @@ const StatusPill = ({ status = "" }) => {
 
 const ProjectDetailsCard = ({ project, tasks = [] }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { projectData, teamData, usersData, taskData } = useWorkInContext();
+  const { projectData, teamData, usersData, taskData, showToast } =
+    useWorkInContext();
 
   const rawTaskList = Array.isArray(taskData.task) ? taskData.task : [];
   const taskList = rawTaskList.filter(
@@ -52,10 +53,7 @@ const ProjectDetailsCard = ({ project, tasks = [] }) => {
 
   const { filteredData, updateFilter, clearFilters } = useLocalFilter(taskList);
 
-  console.log("projectDetailsCard", filteredData);
-
   const usersList = Array.isArray(usersData.users) ? usersData.users : [];
-  console.log(usersList);
 
   const handleAddTask = async (payload, { reset }) => {
     try {
@@ -84,11 +82,10 @@ const ProjectDetailsCard = ({ project, tasks = [] }) => {
       // If no instance, create and hide
       (modal ?? new window.bootstrap.Modal(el)).hide();
 
-      // Refresh your task list here...
+      showToast("Task created successfully.");
       fetchTasks();
     } catch (err) {
       console.error(err);
-      // Show toast/alert if needed
     } finally {
       setIsSubmitting(false);
     }
@@ -111,6 +108,9 @@ const ProjectDetailsCard = ({ project, tasks = [] }) => {
       const data = await response.json().catch(() => null); // be safe if no JSON
 
       if (!response.ok) {
+        showToast(
+          "Cannot mark project as Completed. Some tasks are not completed.",
+        );
         // surface backend reason (e.g., "Project not found" OR "Some tasks are not completed")
         const msg =
           data?.message || `Failed to update project (HTTP ${response.status})`;
@@ -125,15 +125,6 @@ const ProjectDetailsCard = ({ project, tasks = [] }) => {
       setIsSubmitting(false);
     }
   };
-
-  const orderedTasks = useMemo(() => {
-    if (!Array.isArray(tasks)) return [];
-    return [...tasks].sort((a, b) => {
-      const ad = a?.dueDate ? new Date(a.dueDate).getTime() : Infinity;
-      const bd = b?.dueDate ? new Date(b.dueDate).getTime() : Infinity;
-      return ad - bd;
-    });
-  }, [tasks]);
 
   if (!project?._id) {
     return (

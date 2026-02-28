@@ -1,11 +1,5 @@
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
-const STATUS_COLORS = {
-  "TO DO": "secondary",
-  "IN PROGRESS": "warning",
-  COMPLETED: "success",
-  BLOCKED: "danger",
-};
 const ProjectCard = ({ project }) => {
   return (
     <div
@@ -19,36 +13,6 @@ const ProjectCard = ({ project }) => {
             style={{ width: 32, height: 32 }}
           >
             <i className="bi bi-file-earmark-text text-secondary" />
-          </div>
-
-          <div className="dropdown">
-            <button
-              className="btn btn-link text-muted p-0"
-              type="button"
-              id={`projectMenuBtn-${project._id}`}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <i className="bi bi-three-dots-vertical" />
-            </button>
-            <ul
-              className="dropdown-menu dropdown-menu-end"
-              style={{ zIndex: 1050 }}
-              aria-labelledby={`projectMenuBtn-${project._id}`}
-            >
-              <li>
-                <Link
-                  className="dropdown-item"
-                  to={`/projectDetails/${project?._id}`}
-                >
-                  Open
-                </Link>
-              </li>
-              <li>
-                <hr className="dropdown-divider" />
-              </li>
-            </ul>
           </div>
         </div>
 

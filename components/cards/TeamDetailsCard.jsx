@@ -1,11 +1,5 @@
 import TeamMemberModal from "../modals/TeamMemberModal";
-const TeamDetailsCard = ({
-  team,
-  loading = false,
-  error = null,
-}) => {
-  console.log("TeamDetailsCard", team);
-
+const TeamDetailsCard = ({ team, loading = false, error = null }) => {
   if (loading) {
     return (
       <div className="card pdc-card shadow-sm border-0">
