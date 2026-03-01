@@ -9,14 +9,6 @@ import { Link } from "react-router-dom";
 
 const FrontPage = () => {
   const {
-    projects,
-    setProjects,
-
-    projectData,
-    projectLoading,
-    projectError,
-    fetchProjects,
-
     teamData,
     teamLoading,
     teamError,
@@ -41,6 +33,7 @@ const FrontPage = () => {
     loading: filteredProjectLoading,
     updateFilter: updateProjectFilter,
     clearFilters: clearProjectFilters,
+    refetch: refetchProjects,
   } = useFilter("https://work-in-backend.vercel.app/project", {
     paramPrefix: "p",
   });
@@ -51,6 +44,7 @@ const FrontPage = () => {
     loading: filteredTaskLoading,
     updateFilter: updateTaskFilter,
     clearFilters: clearTaskFilters,
+    refetch: refetchTasks,
   } = useFilter("https://work-in-backend.vercel.app/task", {
     paramPrefix: "t",
   });
@@ -60,7 +54,6 @@ const FrontPage = () => {
     description: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log("state variable", projects);
 
   const projectList = Array.isArray(filteredProjectData.projects)
     ? filteredProjectData.projects
@@ -102,14 +95,14 @@ const FrontPage = () => {
       }
 
       const newProject = await response.json();
-      setProjects((prev) => [...prev, newProject]);
+
       console.log("Project is created successfully", newProject);
+      await refetchProjects();
       showToast("New project added successfully");
     } catch (error) {
       console.log("Failed to create a project", error.message);
     } finally {
       setIsSubmitting(false);
-      fetchProjects();
     }
   };
 
@@ -130,6 +123,7 @@ const FrontPage = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to create task");
       console.log("task created successfully", data);
+      await refetchTasks();
       showToast("A new task created successfully.");
 
       // Reset form
@@ -140,12 +134,8 @@ const FrontPage = () => {
       const modal = window.bootstrap?.Modal.getInstance(el);
       // If no instance, create and hide
       (modal ?? new window.bootstrap.Modal(el)).hide();
-
-      // Refresh your task list here...
-      fetchTasks();
     } catch (err) {
       console.error(err);
-      // Show toast/alert if needed
     } finally {
       setIsSubmitting(false);
     }
@@ -287,11 +277,7 @@ const FrontPage = () => {
                 </button>
                 <TaskModal
                   modalId="taskModal"
-                  projects={
-                    Array.isArray(projectData.projects)
-                      ? projectData.projects
-                      : []
-                  }
+                  projects={projectList}
                   teams={teamList}
                   users={userList}
                   isSubmitting={isSubmitting}

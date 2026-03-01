@@ -70,13 +70,12 @@ export function WorkInProvider({ children }) {
   return (
     <WorkInContext.Provider
       value={{
-        projects,
-        setProjects,
-
         projectData,
         projectLoading,
         projectError,
         fetchProjects,
+        projects,
+        setProjects,
 
         teamData,
         teamLoading,

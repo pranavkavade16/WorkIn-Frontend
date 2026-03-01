@@ -22,7 +22,9 @@ const TaskModal = ({
   const [errors, setErrors] = useState({});
   const [tagInput, setTagInput] = useState("");
 
-  console.log(users);
+  const selectedTeam = teams.find((team) => team._id === formData.team);
+
+  const filteredTeamMembers = selectedTeam?.members || users;
 
   // Generic change handler
   const handleChange = (e) => {
@@ -176,7 +178,13 @@ const TaskModal = ({
                     name="team"
                     required
                     value={formData.team}
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        team: e.target.value,
+                        owners: [],
+                      }));
+                    }}
                   >
                     <option value="">Select a team</option>
                     {teams.map((t) => (
@@ -203,7 +211,7 @@ const TaskModal = ({
                     value={formData.owners}
                     onChange={handleOwnersChange}
                   >
-                    {users.map((u) => (
+                    {filteredTeamMembers.map((u) => (
                       <option key={u._id} value={u._id}>
                         {u.name ?? u.email}
                       </option>

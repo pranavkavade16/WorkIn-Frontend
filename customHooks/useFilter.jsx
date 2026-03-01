@@ -1,7 +1,7 @@
 // useFilter.js
-import { useMemo, useCallback, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import useFetch from './useFetch';
+import { useMemo, useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import useFetch from "./useFetch";
 
 /**
  * useFilter
@@ -16,13 +16,13 @@ import useFetch from './useFetch';
  * @returns {{ data:any, error:any, loading:boolean, updateFilter:Function, clearFilters:Function }}
  */
 const useFilter = (baseURL, options = {}) => {
-  const { paramPrefix = '' } = options;
+  const { paramPrefix = "" } = options;
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Helper to produce a prefixed key (when writing to URL)
   const pref = useCallback(
     (key) => (paramPrefix ? `${paramPrefix}_${key}` : key),
-    [paramPrefix]
+    [paramPrefix],
   );
 
   // Extract ONLY this hook's params from URL and strip the prefix for API usage
@@ -43,22 +43,15 @@ const useFilter = (baseURL, options = {}) => {
   const apiUrl = useMemo(() => {
     const url = new URL(baseURL, window.location.origin);
     Object.entries(ownParams).forEach(([k, v]) => {
-      if (v !== undefined && v !== null && `${v}`.trim() !== '') {
+      if (v !== undefined && v !== null && `${v}`.trim() !== "") {
         url.searchParams.set(k, v);
       }
     });
     const finalUrl = url.toString();
-    return finalUrl.startsWith('http')
+    return finalUrl.startsWith("http")
       ? finalUrl
       : `${baseURL}?${url.searchParams.toString()}`;
   }, [baseURL, ownParams]);
-
-  // Diagnostics (optional, keep for debugging)
-  useEffect(() => {
-    console.log('[Filter] searchParams now:', searchParams.toString());
-    console.log('[Filter] ownParams:', ownParams);
-    console.log('[Filter] apiUrl ->', apiUrl);
-  }, [searchParams, ownParams, apiUrl]);
 
   // Fetch data whenever apiUrl changes
   const { data, error, loading, fetchData } = useFetch(apiUrl);
@@ -75,9 +68,9 @@ const useFilter = (baseURL, options = {}) => {
         const params = new URLSearchParams(prev);
 
         Object.entries(updates).forEach(([key, value]) => {
-          const v = typeof value === 'string' ? value.trim() : value;
+          const v = typeof value === "string" ? value.trim() : value;
           const pk = pref(key);
-          if (v === undefined || v === null || v === '') {
+          if (v === undefined || v === null || v === "") {
             params.delete(pk);
           } else {
             params.set(pk, v);
@@ -87,7 +80,7 @@ const useFilter = (baseURL, options = {}) => {
         return params;
       });
     },
-    [setSearchParams, pref]
+    [setSearchParams, pref],
   );
 
   // Clear ONLY this hook's prefixed params
@@ -116,6 +109,7 @@ const useFilter = (baseURL, options = {}) => {
     loading,
     updateFilter,
     clearFilters,
+    refetch: fetchData,
   };
 };
 

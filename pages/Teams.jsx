@@ -15,7 +15,6 @@ const Teams = () => {
   const teamList = Array.isArray(teamData.team) ? teamData.team : [];
   const userList = Array.isArray(usersData.users) ? usersData.users : [];
   const { setSearch, searchedTeams } = useSearch([], [], teamList);
-  console.log("teams page", teamList);
 
   const handleAddTeam = async (payload) => {
     try {
