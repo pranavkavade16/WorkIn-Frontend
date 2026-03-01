@@ -5,7 +5,7 @@ import { useState } from "react";
 import TeamModal from "../components/modals/TeamModal";
 import useSearch from "../customHooks/useSearch";
 const Teams = () => {
-  const { teamData, teamLoading, teamError, usersData, showToast } =
+  const { teamData, teamLoading, teamError, fetchTeams, usersData, showToast } =
     useWorkInContext();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -30,32 +30,12 @@ const Teams = () => {
       if (!response.ok) throw new Error("Failed to create a team");
 
       console.log("Team created successfully.", team);
+      await fetchTeams();
       showToast("Team created successfuly.");
     } catch (error) {
       console.log("Failed to create a team", error.message);
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const handleDeleteTeam = async (teamId) => {
-    try {
-      setIsSubmitting(true);
-
-      const resposne = await fetch(`http://localhost:5000/team/${teamId}`, {
-        method: "DELETE",
-      });
-
-      if (!resposne.ok) {
-        throw new Error("Failed to delete the team");
-      }
-
-      const deletedTeam = await resposne.json();
-
-      console.log("Team deleted sucessfully", deletedTeam);
-      showToast("Team deleted successfully");
-    } catch (error) {
-      console.log("Failed to delete the team", deletedTeam);
     }
   };
 
@@ -125,11 +105,7 @@ const Teams = () => {
                   to={`/teamDetails/${team._id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <TeamCard
-                    team={team}
-                    teamId={team._id}
-                    deleteTeam={handleDeleteTeam}
-                  />
+                  <TeamCard team={team} />
                 </Link>
               </div>
             ))}

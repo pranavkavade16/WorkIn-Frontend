@@ -1,5 +1,10 @@
 import TeamMemberModal from "../modals/TeamMemberModal";
-const TeamDetailsCard = ({ team, loading = false, error = null }) => {
+const TeamDetailsCard = ({
+  team,
+  loading = false,
+  error = null,
+  deleteTeam,
+}) => {
   if (loading) {
     return (
       <div className="card pdc-card shadow-sm border-0">
@@ -45,15 +50,28 @@ const TeamDetailsCard = ({ team, loading = false, error = null }) => {
         {/* Header */}
         <div className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
           <h5 className="mb-0 pdc-title">Team Members</h5>
-          <button
-            type="button"
-            className="btn btn-dark btn-sm d-inline-flex align-items-center gap-2"
-            data-bs-toggle="modal"
-            data-bs-target="#teamMemberModal"
-          >
-            <i className="bi bi-plus-lg" />
-            <span>New Member</span>
-          </button>
+          <div className="d-flex align-items-center justify-content-between">
+            <div className="d-flex gap-2 me-3">
+              <button
+                type="button"
+                className="btn btn-danger btn-sm"
+                onClick={() => deleteTeam(team?._id)}
+              >
+                Delete
+              </button>
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                type="button"
+                className="btn btn-dark btn-sm d-inline-flex align-items-center gap-2"
+                data-bs-toggle="modal"
+                data-bs-target="#teamMemberModal"
+              >
+                <i className="bi bi-plus-lg" />
+                <span>New Member</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Table: Name only */}

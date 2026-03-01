@@ -1,4 +1,4 @@
-const TeamCard = ({ team, teamId }) => {
+const TeamCard = ({ team }) => {
   return (
     <div
       className="card border-1 shadow-sm rounded-4 mb-3 card-hover"

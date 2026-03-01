@@ -14,6 +14,7 @@ const Projects = () => {
     loading: filteredProjectLoading,
     updateFilter: updateProjectFilter,
     clearFilters: clearProjectFilters,
+    refetch: refetchProjects,
   } = useFilter("http://localhost:5000/project", { paramPrefix: "p" });
 
   const [formData, setFormData] = useState({
@@ -54,12 +55,12 @@ const Projects = () => {
       }
 
       await response.json();
+      await refetchProjects()
       showToast("Project added successfully.");
     } catch (error) {
       console.log("Failed to create a project", error.message);
     } finally {
       setIsSubmitting(false);
-      fetchProject();
     }
   };
 

@@ -1,9 +1,11 @@
 import TeamDetailsCard from "../components/cards/TeamDetailsCard";
 import { useParams, useNavigate } from "react-router-dom";
 import useWorkInContext from "../context/workInContext";
+import { useState } from "react";
 
 const TeamDetails = () => {
-  const { teamData, teamLoading, teamError } = useWorkInContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { teamData, teamLoading, teamError, showToast } = useWorkInContext();
   const { teamId } = useParams();
   const navigate = useNavigate();
 
@@ -13,7 +15,28 @@ const TeamDetails = () => {
 
   // Prefer find(...) because we need a single match
   const selectedTeam = teamList.find((team) => team._id === teamId);
-  console.log("Selected Team", selectedTeam);
+
+  const handleDeleteTeam = async (teamId) => {
+    try {
+      setIsSubmitting(true);
+
+      const resposne = await fetch(`http://localhost:5000/team/${teamId}`, {
+        method: "DELETE",
+      });
+
+      if (!resposne.ok) {
+        throw new Error("Failed to delete the team");
+      }
+
+      const deletedTeam = await resposne.json();
+
+      console.log("Team deleted sucessfully", deletedTeam);
+      showToast("Team deleted successfully");
+      navigate("/teams");
+    } catch (error) {
+      console.log("Failed to delete the team", error);
+    }
+  };
 
   // Loading state
   if (teamLoading) {
@@ -91,7 +114,7 @@ const TeamDetails = () => {
 
       {/* Pass a single task object */}
 
-      <TeamDetailsCard team={selectedTeam} />
+      <TeamDetailsCard team={selectedTeam} deleteTeam={handleDeleteTeam} />
     </div>
   );
 };
