@@ -3,6 +3,7 @@ import useWorkInContext from "../context/workInContext";
 import ProjectCard from "../components/cards/ProjectCard";
 import useSearch from "../customHooks/useSearch";
 import useFilter from "../customHooks/useFilter";
+import { Link } from "react-router-dom";
 
 const Projects = () => {
   const { projectLoading, projectError, fetchProject, showToast } =
@@ -55,7 +56,7 @@ const Projects = () => {
       }
 
       await response.json();
-      await refetchProjects()
+      await refetchProjects();
       showToast("Project added successfully.");
     } catch (error) {
       console.log("Failed to create a project", error.message);
@@ -153,18 +154,12 @@ const Projects = () => {
               className="col"
               key={project._id || project.id || project.name}
             >
-              <ProjectCard
-                className="h-100"
-                project={project}
-                name={project.name}
-                description={project.description}
-                projectId={project._id}
-                date={new Date(project.createdAt).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              />
+              <Link
+                to={`/projectDetails/${project?._id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <ProjectCard className="h-100" project={project} />
+              </Link>
             </div>
           ))}
         </div>

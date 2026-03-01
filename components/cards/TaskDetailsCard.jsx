@@ -38,34 +38,8 @@ const Tags = ({ items }) => {
   );
 };
 
-const TaskDetailsCard = ({ task, deleteTask }) => {
+const TaskDetailsCard = ({ task, completeTask, deleteTask }) => {
   const tone = statusTone(task?.status);
-
-  console.log(task);
-
-  const handleCompleteTask = async (taskId) => {
-    try {
-      const response = await fetch(
-        `https://work-in-backend.vercel.app/task/${taskId}/complete`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update the task");
-      }
-
-      const completedTask = await response.json();
-
-      console.log("Task updated successfully ", completedTask);
-    } catch (error) {
-      console.log("Failed to update the task", error.message);
-    }
-  };
 
   return (
     <div className="container-fluid ">
@@ -123,7 +97,7 @@ const TaskDetailsCard = ({ task, deleteTask }) => {
                 <button
                   type="button"
                   className="btn btn-dark btn-sm"
-                  onClick={() => handleCompleteTask(task?._id)}
+                  onClick={() => completeTask(task?._id)}
                 >
                   Mark as Complete
                 </button>
