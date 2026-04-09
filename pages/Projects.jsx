@@ -45,11 +45,14 @@ const Projects = () => {
     try {
       setIsSubmitting(true);
 
-      const response = await fetch("http://localhost:5000/project", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://work-in-backend.vercel.app/project",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        },
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create a project");
