@@ -4,10 +4,19 @@ const useFetch = (url) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(url);
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
       if (!res.ok) throw new Error("Failed to fetch the data.");
       const fetchedData = await res.json();
       setData(fetchedData);
@@ -17,6 +26,8 @@ const useFetch = (url) => {
       setLoading(false);
     }
   }, [url]);
+
   return { data, loading, error, fetchData };
 };
+
 export default useFetch;
