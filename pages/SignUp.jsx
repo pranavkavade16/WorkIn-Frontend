@@ -24,13 +24,16 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("https://work-in-backend.vercel.app/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://work-in-backend.vercel.app/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
         },
-        body: JSON.stringify(user),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create a user");

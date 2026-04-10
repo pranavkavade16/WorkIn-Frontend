@@ -16,7 +16,9 @@ const Projects = () => {
     updateFilter: updateProjectFilter,
     clearFilters: clearProjectFilters,
     refetch: refetchProjects,
-  } = useFilter("http://localhost:5000/project", { paramPrefix: "p" });
+  } = useFilter("https://work-in-backend.vercel.app/project", {
+    paramPrefix: "p",
+  });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +34,6 @@ const Projects = () => {
 
   const { setSearch, searchedProjects } = useSearch(projectList);
 
-  // Combined states (professional pattern)
   const isProjectLoading = projectLoading || filteredProjectLoading;
   const isProjectError = projectError || filteredProjectError;
 
